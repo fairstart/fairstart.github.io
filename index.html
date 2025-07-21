@@ -1,403 +1,434 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Fair Start Co-Founder Canvas</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&d
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fair Start Co-Founder Canvas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&d
   isplay=swap" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-  rel="stylesheet">
-      <style>
-          :root {
-              --primary-dark: #1a1a1a;
-              --primary-blue: #0066cc;
-              --accent-teal: #00d4aa;
-              --text-dark: #333333;
-              --text-light: #6c757d;
-              --bg-light: #f8f9fa;
-              --bg-lighter: #ffffff;
-          }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-          * {
-              font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-  sans-serif;
-          }
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-          body {
-              color: var(--text-dark);
-              line-height: 1.6;
-          }
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-blue: #0066cc;
+            --accent-teal: #00d4aa;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-lighter: #ffffff;
+        }
 
-          /* Navigation */
-          .navbar {
-              background: var(--bg-lighter) !important;
-              backdrop-filter: blur(10px);
-              border-bottom: 1px solid #e9ecef;
-              position: sticky;
-              top: 0;
-              z-index: 1000;
-              padding: 1rem 0;
-          }
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                sans-serif;
+        }
 
-          .navbar-brand {
-              color: var(--primary-dark) !important;
-              font-weight: 600;
-              font-size: 1.5rem;
-          }
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
 
-          .nav-cta {
-              background: var(--primary-blue);
-              color: white !important;
-              padding: 0.5rem 1.5rem;
-              border-radius: 6px;
-              text-decoration: none;
-              font-weight: 500;
-              transition: all 0.2s ease;
-          }
+        /* Navigation */
+        .navbar {
+            background: var(--bg-lighter) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
 
-          .nav-cta:hover {
-              background: #0052a3;
-              transform: translateY(-1px);
-          }
+        .navbar-brand {
+            color: var(--primary-dark) !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
 
-          /* Hero Section */
-          .hero-section {
-              background: var(--bg-lighter);
-              padding: 120px 0 100px;
-              position: relative;
-          }
+        .nav-cta {
+            background: var(--primary-blue);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
 
-          .hero-section::before {
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background: linear-gradient(135deg, rgba(0, 102, 204, 0.05) 0%, rgba(0, 212,
-  170, 0.05) 100%);
-          }
+        .nav-cta:hover {
+            background: #0052a3;
+            transform: translateY(-1px);
+        }
 
-          .hero-content {
-              position: relative;
-              z-index: 2;
-          }
+        /* Hero Section */
+        .hero-section {
+            background: var(--bg-lighter);
+            padding: 120px 0 100px;
+            position: relative;
+        }
 
-          .hero-headline {
-              font-size: 3.5rem;
-              font-weight: 700;
-              color: var(--primary-dark);
-              line-height: 1.1;
-              margin-bottom: 2rem;
-              letter-spacing: -0.02em;
-          }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05) 0%, rgba(0, 212,
+                        170, 0.05) 100%);
+        }
 
-          .hero-subtext {
-              font-size: 1.25rem;
-              color: var(--text-light);
-              margin-bottom: 3rem;
-              font-weight: 400;
-          }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
 
-          .cta-primary {
-              background: var(--primary-blue);
-              color: white;
-              padding: 1rem 2.5rem;
-              border-radius: 8px;
-              text-decoration: none;
-              font-weight: 600;
-              font-size: 1.1rem;
-              display: inline-block;
-              transition: all 0.3s ease;
-              border: none;
-              margin-right: 1rem;
-          }
+        .hero-headline {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
 
-          .cta-primary:hover {
-              background: #0052a3;
-              transform: translateY(-2px);
-              box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
-              color: white;
-          }
+        .hero-subtext {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
 
-          .cta-secondary {
-              color: var(--primary-dark);
-              padding: 1rem 2.5rem;
-              border: 2px solid #e9ecef;
-              border-radius: 8px;
-              text-decoration: none;
-              font-weight: 500;
-              font-size: 1.1rem;
-              display: inline-block;
-              transition: all 0.3s ease;
-          }
+        .cta-primary {
+            background: var(--primary-blue);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 1rem;
+        }
 
-          .cta-secondary:hover {
-              border-color: var(--primary-blue);
-              color: var(--primary-blue);
-          }
+        .cta-primary:hover {
+            background: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
+            color: white;
+        }
 
-          /* Features Section */
-          .features-section {
-              padding: 100px 0;
-              background: var(--bg-light);
-          }
+        .cta-secondary {
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
 
-          .section-title {
-              font-size: 2.5rem;
-              font-weight: 600;
-              color: var(--primary-dark);
-              text-align: center;
-              margin-bottom: 1rem;
-              letter-spacing: -0.01em;
-          }
+        .cta-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
 
-          .section-subtitle {
-              font-size: 1.2rem;
-              color: var(--text-light);
-              text-align: center;
-              margin-bottom: 4rem;
-              max-width: 600px;
-              margin-left: auto;
-              margin-right: auto;
-          }
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background: var(--bg-light);
+        }
 
-          .feature-card {
-              background: white;
-              padding: 3rem 2rem;
-              border-radius: 12px;
-              border: 1px solid #e9ecef;
-              height: 100%;
-              transition: all 0.3s ease;
-              position: relative;
-          }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
 
-          .feature-card:hover {
-              transform: translateY(-4px);
-              box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-          }
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-          .feature-icon {
-              width: 60px;
-              height: 60px;
-              background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
-              border-radius: 12px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 1.5rem;
-              margin-bottom: 1.5rem;
-          }
+        .feature-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
 
-          .feature-title {
-              font-size: 1.5rem;
-              font-weight: 600;
-              color: var(--primary-dark);
-              margin-bottom: 1rem;
-          }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
 
-          .feature-description {
-              color: var(--text-light);
-              font-size: 1rem;
-              line-height: 1.7;
-          }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-          /* Social Proof Section */
-          .social-proof {
-              padding: 80px 0;
-              background: white;
-          }
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
 
-          .stat-number {
-              font-size: 3rem;
-              font-weight: 700;
-              color: var(--primary-blue);
-              display: block;
-          }
+        .feature-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
 
-          .stat-label {
-              color: var(--text-light);
-              font-weight: 500;
-              margin-top: 0.5rem;
-          }
+        /* Social Proof Section */
+        .social-proof {
+            padding: 80px 0;
+            background: white;
+        }
 
-          /* CTA Section */
-          .cta-section {
-              padding: 100px 0;
-              background: var(--primary-dark);
-              color: white;
-          }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            display: block;
+        }
 
-          .cta-section .section-title {
-              color: white;
-          }
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
 
-          .cta-section .section-subtitle {
-              color: rgba(255, 255, 255, 0.8);
-          }
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--primary-dark);
+            color: white;
+        }
 
-          .cta-white {
-              background: white;
-              color: var(--primary-dark);
-              padding: 1rem 2.5rem;
-              border-radius: 8px;
-              text-decoration: none;
-              font-weight: 600;
-              font-size: 1.1rem;
-              display: inline-block;
-              transition: all 0.3s ease;
-          }
+        .cta-section .section-title {
+            color: white;
+        }
 
-          .cta-white:hover {
-              background: var(--bg-light);
-              transform: translateY(-2px);
-              color: var(--primary-dark);
-          }
+        .cta-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-          /* Footer */
-          footer {
-              padding: 2rem 0;
-              background: var(--bg-light);
-              border-top: 1px solid #e9ecef;
-          }
+        .cta-white {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
 
-          /* Responsive Design */
-          @media (max-width: 768px) {
-              .hero-headline {
-                  font-size: 2.5rem;
-              }
+        .cta-white:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+            color: var(--primary-dark);
+        }
 
-              .hero-subtext {
-                  font-size: 1.1rem;
-              }
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            background: var(--bg-light);
+            border-top: 1px solid #e9ecef;
+        }
 
-              .cta-primary, .cta-secondary {
-                  display: block;
-                  margin: 0.5rem 0;
-                  text-align: center;
-              }
-          }
-      </style>
-  </head>
-  <body>
-      <!-- Navigation -->
-      <nav class="navbar navbar-expand-lg">
-          <div class="container">
-              <a class="navbar-brand" href="#">Fair Start</a>
-              <div class="d-none d-md-block">
-                  <a href="#demo" class="nav-cta">Request Demo</a>
-              </div>
-          </div>
-      </nav>
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 2.5rem;
+            }
 
-      <!-- Hero Section -->
-      <section class="hero-section">
-          <div class="container">
-              <div class="row justify-content-center">
-                  <div class="col-lg-10 col-xl-8 text-center hero-content">
-                      <h1 class="hero-headline">AI-Powered Founder Team Alignment</h1>
-                      <p class="hero-subtext">Eliminate co-founder conflicts before they
-  start. Build stronger founding teams with data-driven insights and proven frameworks.</p>
-                      <div class="hero-ctas">
-                          <a href="#demo" class="cta-primary">Request Demo</a>
-                          <a href="#features" class="cta-secondary">Learn More</a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </section>
+            .hero-subtext {
+                font-size: 1.1rem;
+            }
 
-      <!-- Features Section -->
-      <section id="features" class="features-section">
-          <div class="container">
-              <h2 class="section-title">Why Fair Start Works</h2>
-              <p class="section-subtitle">Our AI-driven platform addresses the root causes
-  of co-founder conflicts with proven methodologies and actionable insights.</p>
+            .cta-primary,
+            .cta-secondary {
+                display: block;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
 
-              <div class="row g-4">
-                  <div class="col-md-4">
-                      <div class="feature-card">
-                          <div class="feature-icon">🎯</div>
-                          <h3 class="feature-title">Vision Alignment</h3>
-                          <p class="feature-description">Ensure all founders share the same
-   long-term vision, mission, and strategic priorities for sustainable growth.</p>
-                      </div>
-                  </div>
-                  <div class="col-md-4">
-                      <div class="feature-card">
-                          <div class="feature-icon">⚖️</div>
-                          <h3 class="feature-title">Equity & Roles</h3>
-                          <p class="feature-description">Navigate equity splits and role
-  definitions with AI-powered recommendations based on contribution and market
-  standards.</p>
-                      </div>
-                  </div>
-                  <div class="col-md-4">
-                      <div class="feature-card">
-                          <div class="feature-icon">🚀</div>
-                          <h3 class="feature-title">Conflict Prevention</h3>
-                          <p class="feature-description">Identify potential conflicts early
-   through behavioral analysis and resolve them before they impact your startup's
-  trajectory.</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </section>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Fair Start</a>
+            <div class="d-none d-md-block">
+                <a href="#demo" class="nav-cta">Request Demo</a>
+            </div>
+        </div>
+    </nav>
 
-      <!-- Social Proof -->
-      <section class="social-proof">
-          <div class="container">
-              <div class="row text-center">
-                  <div class="col-md-4">
-                      <span class="stat-number">73%</span>
-                      <div class="stat-label">Of startups fail due to co-founder
-  conflicts</div>
-                  </div>
-                  <div class="col-md-4">
-                      <span class="stat-number">90%</span>
-                      <div class="stat-label">Conflict prevention success rate</div>
-                  </div>
-                  <div class="col-md-4">
-                      <span class="stat-number">50+</span>
-                      <div class="stat-label">Founding teams aligned</div>
-                  </div>
-              </div>
-          </div>
-      </section>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8 text-center hero-content">
+                    <h1 class="hero-headline">AI-Powered Founder Team Alignment</h1>
+                    <p class="hero-subtext">Eliminate co-founder conflicts before they
+                        start. Build stronger founding teams with data-driven insights and proven frameworks.</p>
+                    <div class="hero-ctas">
+                        <a href="#demo" class="cta-primary">Request Demo</a>
+                        <a href="#features" class="cta-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <!-- CTA Section -->
-      <section id="demo" class="cta-section">
-          <div class="container">
-              <div class="row justify-content-center">
-                  <div class="col-lg-8 text-center">
-                      <h2 class="section-title">Ready to Build a Stronger Founding
-  Team?</h2>
-                      <p class="section-subtitle">Join the beta and get early access to our
-   AI-powered co-founder alignment platform. Limited spots available.</p>
-                      <a href="mailto:hello@fairstart.co" class="cta-white">Get Beta
-  Access</a>
-                  </div>
-              </div>
-          </div>
-      </section>
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Fair Start Works</h2>
+            <p class="section-subtitle">Our AI-driven platform addresses the root causes
+                of co-founder conflicts with proven methodologies and actionable insights.</p>
 
-      <!-- Footer -->
-      <footer>
-          <div class="container">
-              <div class="row">
-                  <div class="col-12 text-center">
-                      <p class="mb-0 text-muted">&copy; 2024 Fair Start Co-Founder Canvas.
-  Building the future of founder collaboration.</p>
-                  </div>
-              </div>
-          </div>
-      </footer>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Vision Alignment</h3>
+                        <p class="feature-description">Ensure all founders share the same
+                            long-term vision, mission, and strategic priorities for sustainable growth.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3 class="feature-title">Equity & Roles</h3>
+                        <p class="feature-description">Navigate equity splits and role
+                            definitions with AI-powered recommendations based on contribution and market
+                            standards.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3 class="feature-title">Conflict Prevention</h3>
+                        <p class="feature-description">Identify potential conflicts early
+                            through behavioral analysis and resolve them before they impact your startup's
+                            trajectory.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.mi
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="stat-number">73%</span>
+                    <div class="stat-label">Of startups fail due to co-founder
+                        conflicts</div>
+                </div>
+                <div class="col-md-4">
+                    <span class="stat-number">90%</span>
+                    <div class="stat-label">Conflict prevention success rate</div>
+                </div>
+                <div class="col-md-4">
+                    <span class="stat-number">50+</span>
+                    <div class="stat-label">Founding teams aligned</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="demo" class="cta-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Ready to Build a Stronger Founding
+                        Team?</h2>
+                    <p class="section-subtitle">Join the beta and get early access to our
+                        AI-powered co-founder alignment platform. Limited spots available.</p>
+                    <a href="mailto:hello@fairstart.co" class="cta-white">Get Beta
+                        Access</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0 text-muted">&copy; 2024 Fair Start Co-Founder Canvas.
+                        Building the future of founder collaboration.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.mi
   n.js"></script>
-  </body>
-  </html>
+    <!-- Firebase Configuration -->
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMEairmPy1JsJb1HcIEPEulgP1lH7ckXk",
+            authDomain: "fair-start-mvp.firebaseapp.com",
+            projectId: "fair-start-mvp",
+            storageBucket: "fair-start-mvp.firebasestorage.app",
+            messagingSenderId: "355035085417",
+            appId: "1:355035085417:web:11971bbcd14555e0b5c0f8",
+            measurementId: "G-0Q609DNKZL"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase services
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        console.log("Firebase initialized successfully!");
+    </script>
+</body>
+
+</html>
