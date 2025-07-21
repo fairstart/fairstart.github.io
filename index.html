@@ -512,6 +512,171 @@
         </div>
     </div>
 
+    <!-- Assessment Module (Hidden by default) -->
+    <div id="assessment" style="display: none;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Co-Founder Alignment Assessment</h2>
+                        <button class="btn btn-outline-secondary" onclick="showDashboard()">Back to Dashboard</button>
+                    </div>
+                    
+                    <!-- Assessment Progress -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" id="assessmentProgress" style="width: 0%"></div>
+                            </div>
+                            <div class="text-center mt-2">
+                                <small class="text-muted">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">15</span></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Introduction Phase -->
+                    <div id="assessmentIntro" class="text-center">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-5">
+                                        <h3 class="mb-4">🎯 Welcome to Your Founder Alignment Journey</h3>
+                                        <p class="lead mb-4">This assessment will help you and your co-founder(s) identify areas of alignment and potential conflicts before they become problems.</p>
+                                        
+                                        <div class="row text-start mb-4">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="badge bg-primary me-3 mt-1">1</div>
+                                                    <div>
+                                                        <h6 class="mb-1">Personal Layer</h6>
+                                                        <small class="text-muted">Core values, motivations & work style</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="badge bg-success me-3 mt-1">2</div>
+                                                    <div>
+                                                        <h6 class="mb-1">Strategic Layer</h6>
+                                                        <small class="text-muted">Vision, funding & exit strategy</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="badge bg-info me-3 mt-1">3</div>
+                                                    <div>
+                                                        <h6 class="mb-1">Operational Layer</h6>
+                                                        <small class="text-muted">Roles, equity & decision-making</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-lightbulb me-2"></i>
+                                            <strong>Pro Tip:</strong> Answer honestly and independently first. We'll compare responses with your co-founder(s) afterward.
+                                        </div>
+
+                                        <button class="btn btn-primary btn-lg" onclick="beginAssessment()">Begin Assessment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question Phase -->
+                    <div id="assessmentQuestions" style="display: none;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-5">
+                                        <!-- Question Header -->
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <span class="badge bg-primary" id="questionCategory">Personal Layer</span>
+                                            <span class="text-muted" id="questionNumber">1/15</span>
+                                        </div>
+
+                                        <!-- Question Content -->
+                                        <h4 class="mb-4" id="questionTitle">Loading question...</h4>
+                                        <p class="text-muted mb-4" id="questionDescription">Question description will appear here.</p>
+
+                                        <!-- Answer Input -->
+                                        <div id="answerSection">
+                                            <!-- Text Input -->
+                                            <div id="textAnswer" style="display: none;">
+                                                <textarea class="form-control" id="textInput" rows="4" placeholder="Share your thoughts..."></textarea>
+                                            </div>
+
+                                            <!-- Multiple Choice -->
+                                            <div id="multipleChoice" style="display: none;">
+                                                <div id="choiceOptions"></div>
+                                            </div>
+
+                                            <!-- Scale Rating -->
+                                            <div id="scaleRating" style="display: none;">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <span class="text-muted" id="scaleMin">Strongly Disagree</span>
+                                                    <span class="text-muted" id="scaleMax">Strongly Agree</span>
+                                                </div>
+                                                <div class="d-flex justify-content-center">
+                                                    <div id="scaleOptions" class="d-flex gap-3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Navigation -->
+                                        <div class="d-flex justify-content-between mt-5">
+                                            <button class="btn btn-outline-secondary" id="prevButton" onclick="previousQuestion()" disabled>Previous</button>
+                                            <button class="btn btn-primary" id="nextButton" onclick="nextQuestion()">Next Question</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Phase -->
+                    <div id="assessmentResults" style="display: none;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-5">
+                                        <div class="text-center mb-5">
+                                            <h3>🎉 Assessment Complete!</h3>
+                                            <p class="lead text-muted">Your responses have been saved. Now invite your co-founder(s) to complete their assessment.</p>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="card bg-light">
+                                                    <div class="card-body text-center">
+                                                        <h5>📊 View Your Responses</h5>
+                                                        <p class="text-muted mb-3">Review and edit your answers</p>
+                                                        <button class="btn btn-outline-primary" onclick="viewMyResponses()">View Responses</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="card bg-primary text-white">
+                                                    <div class="card-body text-center">
+                                                        <h5>👥 Invite Co-Founder</h5>
+                                                        <p class="mb-3">Send assessment link to your co-founder</p>
+                                                        <button class="btn btn-light" onclick="inviteCofounder()">Send Invitation</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Firebase Configuration -->
     <script>
@@ -692,9 +857,274 @@
             });
         }
 
-        // Dashboard Functions (Placeholders)
+        // Assessment System
+        let currentQuestionIndex = 0;
+        let assessmentResponses = {};
+        let assessmentQuestions = [
+            // Layer 1: Personal & Psychological (The "Why")
+            {
+                category: "Personal Layer",
+                categoryColor: "bg-primary",
+                title: "What is your primary motivation for starting this company?",
+                description: "Understanding your core 'why' helps identify if you and your co-founder are driven by compatible goals.",
+                type: "text",
+                key: "motivation"
+            },
+            {
+                category: "Personal Layer", 
+                categoryColor: "bg-primary",
+                title: "How do you typically handle conflict?",
+                description: "Describe a time you dealt with conflict well, and a time you didn't. This helps predict how you'll navigate disagreements.",
+                type: "text",
+                key: "conflict_style"
+            },
+            {
+                category: "Personal Layer",
+                categoryColor: "bg-primary", 
+                title: "How many hours per week are you willing to work?",
+                description: "Mismatched work expectations are a major source of founder resentment.",
+                type: "multiple",
+                options: ["40-50 hours", "50-60 hours", "60-70 hours", "70+ hours", "Whatever it takes"],
+                key: "work_hours"
+            },
+            {
+                category: "Personal Layer",
+                categoryColor: "bg-primary",
+                title: "What does success look like to you personally?", 
+                description: "Success means different things to different people - money, impact, recognition, freedom, etc.",
+                type: "text",
+                key: "personal_success"
+            },
+            {
+                category: "Personal Layer",
+                categoryColor: "bg-primary",
+                title: "How do you cope with stress and failure?",
+                description: "Startups involve constant stress and setbacks. Understanding coping mechanisms prevents burnout conflicts.",
+                type: "text", 
+                key: "stress_coping"
+            },
+
+            // Layer 2: Strategic & Visionary (The "What") 
+            {
+                category: "Strategic Layer",
+                categoryColor: "bg-success",
+                title: "What is your vision for this company in 5 years?",
+                description: "Alignment on long-term vision prevents founders from steering in different directions.",
+                type: "text",
+                key: "company_vision"
+            },
+            {
+                category: "Strategic Layer",
+                categoryColor: "bg-success", 
+                title: "How much money should we raise?",
+                description: "Funding philosophy reflects risk tolerance and growth ambitions.",
+                type: "multiple",
+                options: ["Bootstrap/No external funding", "$50K-$250K (Friends & Family)", "$500K-$2M (Seed)", "$5M+ (Series A)", "As much as possible"],
+                key: "funding_approach"
+            },
+            {
+                category: "Strategic Layer",
+                categoryColor: "bg-success",
+                title: "What would an ideal exit look like?",
+                description: "Exit expectations must align - some want to build and sell quickly, others want to build a lasting company.",
+                type: "multiple", 
+                options: ["IPO in 10+ years", "Acquisition in 5-10 years", "Acquisition in 2-5 years", "Keep it private forever", "Haven't thought about it"],
+                key: "exit_strategy"
+            },
+            {
+                category: "Strategic Layer", 
+                categoryColor: "bg-success",
+                title: "At what number would you consider selling the company?",
+                description: "Specific exit expectations reveal true ambitions and risk tolerance.",
+                type: "multiple",
+                options: ["$1M-$10M", "$10M-$50M", "$50M-$100M", "$100M+", "Would never sell"],
+                key: "exit_number"
+            },
+            {
+                category: "Strategic Layer",
+                categoryColor: "bg-success",
+                title: "What company culture do you want to build?", 
+                description: "Culture decisions impact every hire and business choice. Misalignment here creates lasting friction.",
+                type: "text",
+                key: "company_culture"
+            },
+
+            // Layer 3: Operational & Role-Based (The "How")
+            {
+                category: "Operational Layer",
+                categoryColor: "bg-info", 
+                title: "What should your role and title be?",
+                description: "Clear role definition prevents overlap, confusion, and power struggles.",
+                type: "text",
+                key: "role_title"
+            },
+            {
+                category: "Operational Layer",
+                categoryColor: "bg-info",
+                title: "How should we split equity?", 
+                description: "Equity splits must feel fair to all parties. This is often the most contentious founder discussion.",
+                type: "multiple",
+                options: ["Equal split (50/50)", "I should have more (60/40 or 70/30)", "Based on contributions", "Dynamic based on work put in", "Haven't decided"],
+                key: "equity_split"
+            },
+            {
+                category: "Operational Layer", 
+                categoryColor: "bg-info",
+                title: "How should major decisions be made?",
+                description: "Clear decision-making prevents deadlock and ensures someone can break ties.",
+                type: "multiple",
+                options: ["Consensus required", "CEO has final say", "Each person owns their domain", "Voting based on equity", "Case-by-case basis"],
+                key: "decision_making"
+            },
+            {
+                category: "Operational Layer",
+                categoryColor: "bg-info", 
+                title: "What happens if one founder wants to leave?",
+                description: "Departure terms must be clear upfront to avoid legal battles later.",
+                type: "multiple",
+                options: ["They keep all their equity", "Company buys back unvested equity", "Depends on reason for leaving", "Equal negotiation", "Haven't thought about it"],
+                key: "departure_terms"
+            },
+            {
+                category: "Operational Layer",
+                categoryColor: "bg-info",
+                title: "How much of your own money are you willing to invest?",
+                description: "Financial contributions and runway affect timeline and decision-making pressure.",
+                type: "multiple", 
+                options: ["$0", "$1K-$10K", "$10K-$50K", "$50K+", "Whatever it takes"],
+                key: "financial_investment"
+            }
+        ];
+
+        function showAssessment() {
+            hideAllViews();
+            document.getElementById('assessment').style.display = 'block';
+            document.getElementById('totalQuestions').textContent = assessmentQuestions.length;
+        }
+
+        function hideAllViews() {
+            document.querySelector('.hero-section').style.display = 'none';
+            document.querySelector('.features-section').style.display = 'none'; 
+            document.querySelector('.social-proof').style.display = 'none';
+            document.querySelector('.cta-section').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('assessment').style.display = 'none';
+        }
+
+        function beginAssessment() {
+            document.getElementById('assessmentIntro').style.display = 'none';
+            document.getElementById('assessmentQuestions').style.display = 'block';
+            loadQuestion(0);
+        }
+
+        function loadQuestion(index) {
+            const question = assessmentQuestions[index];
+            const progress = ((index + 1) / assessmentQuestions.length) * 100;
+            
+            // Update progress
+            document.getElementById('assessmentProgress').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = index + 1;
+            document.getElementById('questionNumber').textContent = (index + 1) + '/' + assessmentQuestions.length;
+            
+            // Update question content
+            document.getElementById('questionCategory').textContent = question.category;
+            document.getElementById('questionCategory').className = 'badge ' + question.categoryColor;
+            document.getElementById('questionTitle').textContent = question.title;
+            document.getElementById('questionDescription').textContent = question.description;
+            
+            // Clear previous answer inputs
+            document.getElementById('textAnswer').style.display = 'none';
+            document.getElementById('multipleChoice').style.display = 'none';
+            document.getElementById('scaleRating').style.display = 'none';
+            
+            // Show appropriate input type
+            if (question.type === 'text') {
+                document.getElementById('textAnswer').style.display = 'block';
+                const existingAnswer = assessmentResponses[question.key] || '';
+                document.getElementById('textInput').value = existingAnswer;
+            } else if (question.type === 'multiple') {
+                document.getElementById('multipleChoice').style.display = 'block';
+                const choiceContainer = document.getElementById('choiceOptions');
+                choiceContainer.innerHTML = '';
+                
+                question.options.forEach((option, i) => {
+                    const isChecked = assessmentResponses[question.key] === option ? 'checked' : '';
+                    choiceContainer.innerHTML += `
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="choice" id="choice${i}" value="${option}" ${isChecked}>
+                            <label class="form-check-label" for="choice${i}">${option}</label>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Update navigation
+            document.getElementById('prevButton').disabled = index === 0;
+            document.getElementById('nextButton').textContent = index === assessmentQuestions.length - 1 ? 'Complete Assessment' : 'Next Question';
+        }
+
+        function nextQuestion() {
+            const question = assessmentQuestions[currentQuestionIndex];
+            
+            // Save current answer
+            if (question.type === 'text') {
+                const answer = document.getElementById('textInput').value.trim();
+                if (answer) {
+                    assessmentResponses[question.key] = answer;
+                }
+            } else if (question.type === 'multiple') {
+                const selectedOption = document.querySelector('input[name="choice"]:checked');
+                if (selectedOption) {
+                    assessmentResponses[question.key] = selectedOption.value;
+                }
+            }
+            
+            if (currentQuestionIndex === assessmentQuestions.length - 1) {
+                completeAssessment();
+            } else {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function completeAssessment() {
+            // Save to Firebase
+            if (currentUser) {
+                db.collection('assessments').doc(currentUser.uid).set({
+                    responses: assessmentResponses,
+                    completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email
+                }).then(function() {
+                    console.log('Assessment saved successfully');
+                }).catch(function(error) {
+                    console.error('Error saving assessment:', error);
+                });
+            }
+            
+            // Show results
+            document.getElementById('assessmentQuestions').style.display = 'none';
+            document.getElementById('assessmentResults').style.display = 'block';
+        }
+
         function startAssessment() {
-            alert('Assessment feature coming soon! This will guide you through co-founder alignment questions.');
+            showAssessment();
+        }
+
+        function viewMyResponses() {
+            alert('Response review feature coming next! You\'ll be able to edit and review all your answers.');
+        }
+
+        function inviteCofounder() {
+            alert('Co-founder invitation feature coming next! You\'ll be able to send them a custom assessment link.');
         }
 
         function viewTeamStatus() {
