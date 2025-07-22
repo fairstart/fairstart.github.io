@@ -1,0 +1,297 @@
+/*
+ * Fair Start Co-Founder Canvas - Main Styles
+ * Professional CSS architecture for technical credibility
+ * Version: 1.0 (Extracted from monolithic structure)
+ */
+
+/* ================================
+   CSS VARIABLES (DESIGN SYSTEM)
+   ================================ */
+:root {
+    --primary-dark: #1a1a1a;
+    --primary-blue: #0066cc;
+    --accent-teal: #00d4aa;
+    --text-dark: #333333;
+    --text-light: #6c757d;
+    --bg-light: #f8f9fa;
+    --bg-lighter: #ffffff;
+}
+
+/* ================================
+   GLOBAL STYLES
+   ================================ */
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* ================================
+   NAVIGATION
+   ================================ */
+.navbar {
+    background: var(--bg-lighter) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    color: var(--primary-dark) !important;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.nav-cta {
+    background: var(--primary-blue);
+    color: white !important;
+    padding: 0.5rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-cta:hover {
+    background: #0052a3;
+    transform: translateY(-1px);
+}
+
+/* ================================
+   HERO SECTION
+   ================================ */
+.hero-section {
+    background: var(--bg-lighter);
+    padding: 120px 0 100px;
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.05) 0%, rgba(0, 212, 170, 0.05) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-headline {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtext {
+    font-size: 1.25rem;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    font-weight: 400;
+}
+
+/* ================================
+   CALL-TO-ACTION BUTTONS
+   ================================ */
+.cta-primary {
+    background: var(--primary-blue);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    margin-right: 1rem;
+}
+
+.cta-primary:hover {
+    background: #0052a3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
+    color: white;
+}
+
+.cta-secondary {
+    color: var(--primary-dark);
+    padding: 1rem 2.5rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.cta-secondary:hover {
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+.cta-white {
+    background: white;
+    color: var(--primary-dark);
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.cta-white:hover {
+    background: var(--bg-light);
+    transform: translateY(-2px);
+    color: var(--primary-dark);
+}
+
+/* ================================
+   FEATURES SECTION
+   ================================ */
+.features-section {
+    padding: 100px 0;
+    background: var(--bg-light);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 4rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feature-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+}
+
+.feature-description {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* ================================
+   SOCIAL PROOF SECTION
+   ================================ */
+.social-proof {
+    padding: 80px 0;
+    background: white;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    display: block;
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+/* ================================
+   CTA SECTION
+   ================================ */
+.cta-section {
+    padding: 100px 0;
+    background: var(--primary-dark);
+    color: white;
+}
+
+.cta-section .section-title {
+    color: white;
+}
+
+.cta-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ================================
+   FOOTER
+   ================================ */
+footer {
+    padding: 2rem 0;
+    background: var(--bg-light);
+    border-top: 1px solid #e9ecef;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+@media (max-width: 768px) {
+    .hero-headline {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtext {
+        font-size: 1.1rem;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+        display: block;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+}
