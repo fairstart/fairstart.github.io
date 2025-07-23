@@ -10,16 +10,503 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&d
   isplay=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Fair Start Stylesheets -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-blue: #0066cc;
+            --accent-teal: #00d4aa;
+            --text-dark: #333333;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-lighter: #ffffff;
+        }
+
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--bg-lighter) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            color: #00144d !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .nav-cta {
+            background: #00144d;
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            background: #002366;
+            transform: translateY(-1px);
+        }
+
+        /* Custom outline primary for navigation */
+        .btn-outline-primary {
+            border-color: #00144d !important;
+            color: #00144d !important;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #00144d !important;
+            border-color: #00144d !important;
+            color: white !important;
+        }
+
+        /* Custom primary button for dashboard */
+        .btn-primary {
+            background-color: #00144d !important;
+            border-color: #00144d !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #002366 !important;
+            border-color: #002366 !important;
+        }
+
+        /* Custom bg-primary for cards */
+        .bg-primary {
+            background-color: #00144d !important;
+        }
+
+        /* Custom progress bar styling */
+        .progress-bar {
+            background: linear-gradient(90deg, #4a6fa5 0%, #00144d 100%) !important;
+            transition: width 0.3s ease;
+        }
+
+        /* Custom badge for Operational Layer */
+        .bg-operational {
+            background-color: #780a0a !important;
+        }
+
+        /* Shine effect for CTA button */
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shine 3s infinite;
+            z-index: 1;
+        }
+
+        .shine-effect span {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--bg-lighter);
+            padding: 120px 0 100px;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05) 0%, rgba(0, 212,
+                        170, 0.05) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-headline {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtext {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .cta-primary {
+            background: #00144d;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 1rem;
+        }
+
+        .cta-primary:hover {
+            background: #002366;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 20, 77, 0.3);
+            color: white;
+        }
+
+        .cta-secondary {
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #00144d;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Social Proof Section */
+        .social-proof {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #00144d;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .cta-section .section-title {
+            color: white;
+        }
+
+        .cta-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-white {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .cta-white:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            background: var(--bg-light);
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* Professional Profile Dropdown */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .profile-trigger:hover {
+            background: var(--bg-light);
+            border-color: var(--primary-blue);
+            color: var(--text-dark);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #00144d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .profile-name {
+            font-weight: 500;
+            font-size: 14px;
+            color: #00144d;
+        }
+
+        .profile-chevron {
+            margin-left: 8px;
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-dropdown.show .profile-chevron {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            margin-top: 8px;
+            min-width: 320px;
+            z-index: 1050;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
+        .profile-dropdown.show .profile-dropdown-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .profile-user-info {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .profile-user-details h6 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .profile-user-details .text-muted {
+            font-size: 13px;
+            margin: 2px 0;
+        }
+
+        .profile-team-badge {
+            background: var(--bg-light);
+            color: var(--text-light);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .profile-actions {
+            padding: 12px 0;
+        }
+
+        .profile-action-item {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .profile-action-item:hover {
+            background: var(--bg-light);
+        }
+
+        .profile-action-item.danger {
+            color: #dc3545;
+        }
+
+        .profile-action-item.danger:hover {
+            background: #ffeaea;
+        }
+
+        .profile-action-icon {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtext {
+                font-size: 1.1rem;
+            }
+
+            .cta-primary,
+            .cta-secondary {
+                display: block;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+
+            .profile-dropdown-menu {
+                min-width: 280px;
+                right: -10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -81,13 +568,13 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-xl-8 text-center hero-content">
-                    <h1 class="hero-headline">AI-Powered Founder Team Alignment</h1>
+                    <h1 class="hero-headline">Data Driven Alignment </h1>
                     <p class="hero-subtext">Eliminate co-founder conflicts before they
                         start. Build stronger founding teams with data-driven insights and proven frameworks.</p>
                     <div class="hero-ctas" id="heroCTAs">
                         <!-- Dynamic buttons based on login state -->
                         <div id="loggedOutCTAs">
-                            <button class="cta-primary" onclick="showAuthModal('signup')">Get Started Free</button>
+                            <button class="cta-primary shine-effect" onclick="showAuthModal('signup')">Get Beta Access</button>
                             <a href="#features" class="cta-secondary">Learn More</a>
                         </div>
                         <div id="loggedInCTAs" style="display: none;">
@@ -110,7 +597,7 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
+                        <div class="feature-icon"><i class="fas fa-users"></i></div>
                         <h3 class="feature-title">Vision Alignment</h3>
                         <p class="feature-description">Ensure all founders share the same
                             long-term vision, mission, and strategic priorities for sustainable growth.</p>
@@ -118,7 +605,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="feature-card">
-                        <div class="feature-icon">⚖️</div>
+                        <div class="feature-icon"><i class="fas fa-balance-scale"></i></div>
                         <h3 class="feature-title">Equity & Roles</h3>
                         <p class="feature-description">Navigate equity splits and role
                             definitions with AI-powered recommendations based on contribution and market
@@ -127,11 +614,10 @@
                 </div>
                 <div class="col-md-4">
                     <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
+                        <div class="feature-icon"><i class="fas fa-rocket"></i></div>
                         <h3 class="feature-title">Conflict Prevention</h3>
                         <p class="feature-description">Identify potential conflicts early
-                            through behavioral analysis and resolve them before they impact your startup's
-                            trajectory.</p>
+                            and resolve them before they impact your startup's trajectory.</p>
                     </div>
                 </div>
             </div>
@@ -143,17 +629,21 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-4">
-                    <span class="stat-number">73%</span>
-                    <div class="stat-label">Of startups fail due to co-founder
-                        conflicts</div>
+                    <span class="stat-number">65%</span>
+                    <div class="stat-label">Of startups fail due to co-founder conflicts</div>
+                    <div class="stat-source">
+                        <a href="https://hbr.org/2022/12/cofounders-need-to-learn-how-to-productively-disagree" target="_blank" style="color: #6c757d; font-size: 0.85rem; text-decoration: none;">
+                            <em>Harvard Business Review</em>
+                        </a>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <span class="stat-number">90%</span>
-                    <div class="stat-label">Conflict prevention success rate</div>
+                    <span class="stat-number">$197B</span>
+                    <div class="stat-label">Evaporates every year because of this</div>
                 </div>
                 <div class="col-md-4">
-                    <span class="stat-number">50+</span>
-                    <div class="stat-label">Founding teams aligned</div>
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">Minutes is all it takes to build your foundation and succeed</div>
                 </div>
             </div>
         </div>
@@ -164,11 +654,11 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="section-title">Ready to Build a Stronger Founding
+                    <h2 class="section-title">Ready to Build an Elite Founding
                         Team?</h2>
                     <p class="section-subtitle">Join the beta and get early access to our
                         AI-powered co-founder alignment platform. Limited spots available.</p>
-                    <button class="cta-white" id="bottomCTA" onclick="showAuthModal('signup')">Get Beta Access</button>
+                    <button class="cta-white shine-effect" id="bottomCTA" onclick="showAuthModal('signup')">Get Beta Access</button>
                 </div>
             </div>
         </div>
@@ -179,7 +669,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-0 text-muted">&copy; 2024 Fair Start Co-Founder Canvas.
+                    <p class="mb-0 text-muted">&copy; 2025 Fair Start Co-Founder Canvas.
                         Building the future of founder collaboration.</p>
                 </div>
             </div>
@@ -301,6 +791,27 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Invitation Code Card -->
+                    <div class="row mt-4" id="invitationCodeCard" style="display: none;">
+                        <div class="col-12">
+                            <div class="card border-primary">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h5 class="mb-0">Invite Your Co-Founder</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <p class="card-text mb-3">Share this invitation code with your potential co-founder to start building your elite founding team.</p>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control text-center fw-bold fs-4" id="userInviteCode" readonly style="background-color: #f8f9fa; letter-spacing: 2px;" placeholder="Loading...">
+                                        <button class="btn btn-outline-primary" type="button" onclick="copyInviteCode()">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <small class="text-muted">Or share the direct link: <a href="#" id="inviteLink" target="_blank">Loading...</a></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -340,7 +851,7 @@
                                         <div class="row text-start mb-4">
                                             <div class="col-md-4 mb-3">
                                                 <div class="d-flex align-items-start">
-                                                    <div class="badge bg-primary me-3 mt-1">1</div>
+                                                    <div class="badge bg-primary me-3 mt-1" style="font-size: 1rem;"><i class="fas fa-user"></i></div>
                                                     <div>
                                                         <h6 class="mb-1">Personal Layer</h6>
                                                         <small class="text-muted">Core values, motivations & work style</small>
@@ -349,7 +860,7 @@
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <div class="d-flex align-items-start">
-                                                    <div class="badge bg-success me-3 mt-1">2</div>
+                                                    <div class="badge bg-success me-3 mt-1" style="font-size: 1rem;"><i class="fas fa-bullseye"></i></div>
                                                     <div>
                                                         <h6 class="mb-1">Strategic Layer</h6>
                                                         <small class="text-muted">Vision, funding & exit strategy</small>
@@ -358,7 +869,7 @@
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <div class="d-flex align-items-start">
-                                                    <div class="badge bg-info me-3 mt-1">3</div>
+                                                    <div class="badge me-3 mt-1" style="font-size: 1rem; background-color: #780a0a; color: white;"><i class="fas fa-cog"></i></div>
                                                     <div>
                                                         <h6 class="mb-1">Operational Layer</h6>
                                                         <small class="text-muted">Roles, equity & decision-making</small>
@@ -367,9 +878,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="alert alert-info">
-                                            <strong>Pro Tip:</strong> Answer honestly and independently first. We'll compare responses with your co-founder(s) afterward.
-                                        </div>
+                                        <p class="text-muted mb-4">
+                                            <span class="badge" style="background-color: #00144d; color: white; font-size: inherit; font-weight: normal; margin-right: 8px;">Pro Tip</span> Answer honestly and independently first. We'll compare responses with your co-founder(s) afterward.
+                                        </p>
 
                                         <button class="btn btn-primary btn-lg" onclick="beginAssessment()">Begin Assessment</button>
                                     </div>
@@ -444,9 +955,8 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="card bg-light">
                                                     <div class="card-body text-center">
-                                                        <h5>View Your Responses</h5>
-                                                        <p class="text-muted mb-3">Review and edit your answers</p>
-                                                        <button class="btn btn-outline-primary" onclick="viewMyResponses()">View Responses</button>
+                                                        <h5>Review Your Responses</h5>
+                                                        <button class="btn btn-outline-primary" onclick="viewMyResponses()">My Answers</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -454,7 +964,6 @@
                                                 <div class="card bg-primary text-white">
                                                     <div class="card-body text-center">
                                                         <h5>Invite Co-Founder</h5>
-                                                        <p class="mb-3">Send assessment link to your co-founder</p>
                                                         <button class="btn btn-light" onclick="inviteCofounder()">Send Invitation</button>
                                                     </div>
                                                 </div>
@@ -477,7 +986,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-6 text-center hero-content">
                         <div class="mb-4">
-                            <div class="feature-icon mx-auto" style="width: 80px; height: 80px; font-size: 2rem; background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">FS</div>
+                            <div class="feature-icon mx-auto" style="width: 80px; height: 80px; font-size: 2rem; background: #00144d; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">FS</div>
                         </div>
                         <h2 style="font-size: 2rem; font-weight: 500; color: var(--primary-dark); margin-bottom: 1.5rem;" id="inviteTeamName">You're getting access to Fair Start</h2>
                         <p class="hero-subtext" id="inviteDescription">Complete the co-founder alignment assessment to see how you align with your potential co-founder.</p>
@@ -497,7 +1006,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <div class="d-flex align-items-start">
-                                            <div class="badge bg-success me-3 mt-1">2</div>
+                                            <div class="badge me-3 mt-1" style="background-color: #00144d; color: white;">2</div>
                                             <div>
                                                 <h6 class="mb-1">Assessment</h6>
                                                 <small class="text-muted">Complete the 15-question alignment survey</small>
@@ -506,7 +1015,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <div class="d-flex align-items-start">
-                                            <div class="badge bg-info me-3 mt-1">3</div>
+                                            <div class="badge bg-success me-3 mt-1">3</div>
                                             <div>
                                                 <h6 class="mb-1">Results</h6>
                                                 <small class="text-muted">See your co-founder alignment analysis</small>
@@ -519,7 +1028,6 @@
 
                         <div class="hero-ctas mt-4">
                             <button class="cta-primary" onclick="showAuthModal('signup')">Join Team</button>
-                            <button class="cta-secondary" onclick="showFairStartHome()">Learn About Fair Start</button>
                         </div>
                     </div>
                 </div>
@@ -534,7 +1042,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center hero-content">
                         <div class="mb-4">
-                            <div class="feature-icon mx-auto" style="width: 60px; height: 60px; font-size: 1.5rem; background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">FS</div>
+                            <div class="feature-icon mx-auto" style="width: 60px; height: 60px; font-size: 1.5rem; background: #00144d; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">FS</div>
                         </div>
                         <h2 style="font-size: 2rem; font-weight: 500; color: var(--primary-dark); margin-bottom: 2rem;">Welcome to Your Founding Teamspace</h2>
                         <p class="hero-subtext" id="welcomeMessage">You've successfully joined the team. Now complete your assessment to unlock your co-founder alignment insights.</p>
@@ -545,10 +1053,6 @@
                                 <p class="text-muted mb-3">Build a solid foundation within 10 minutes by completing the alignment assessment today.</p>
                                 <button class="btn btn-primary btn-lg" onclick="startAssessment()">Complete Assessment</button>
                             </div>
-                        </div>
-
-                        <div class="hero-ctas">
-                            <button class="cta-secondary" onclick="showDashboard()">Go to Dashboard</button>
                         </div>
                     </div>
                 </div>
@@ -562,7 +1066,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2>Review Your Assessment</h2>
+                        <h2>Your Assessment</h2>
                         <button class="btn btn-outline-secondary" onclick="showDashboard()">Back to Dashboard</button>
                     </div>
                     
@@ -570,8 +1074,7 @@
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
-                                    <h5 class="mb-1">Your Co-Founder Alignment Responses</h5>
-                                    <small class="text-muted">Review and edit your answers to ensure accuracy</small>
+                                    <h5 class="mb-1">Review and edit your answers to ensure accuracy</h5>
                                 </div>
                                 <button class="btn btn-primary" id="editButton" onclick="enableEditMode()">Edit Responses</button>
                             </div>
@@ -617,7 +1120,7 @@
                                 <div class="card-body text-center">
                                     <h3 class="text-warning mb-1" id="partialCount">0</h3>
                                     <p class="text-muted mb-0">Different Perspectives</p>
-                                    <small class="text-warning">Discussion recommended</small>
+                                    <small class="text-warning">Dialogue recommended</small>
                                 </div>
                             </div>
                         </div>
@@ -625,8 +1128,8 @@
                             <div class="card border-danger">
                                 <div class="card-body text-center">
                                     <h3 class="text-danger mb-1" id="conflictCount">0</h3>
-                                    <p class="text-muted mb-0">Major Conflicts</p>
-                                    <small class="text-danger">Urgent conversation needed</small>
+                                    <p class="text-muted mb-0">Conflicts</p>
+                                    <small class="text-danger">Immediate discussion</small>
                                 </div>
                             </div>
                         </div>
@@ -639,9 +1142,8 @@
 
                     <!-- Action Items -->
                     <div class="card mt-4">
-                        <div class="card-header bg-primary text-white">
+                        <div class="card-header bg-primary text-white text-center">
                             <h5 class="mb-0">Priority Conversations</h5>
-                            <small class="text-white-50">Address these topics first</small>
                         </div>
                         <div class="card-body">
                             <div id="actionItems">
@@ -917,6 +1419,7 @@
 
         function checkUserAssessmentStatus() {
             if (currentUser) {
+                // Load assessment status
                 db.collection('assessments').doc(currentUser.uid).get()
                     .then(function(doc) {
                         if (doc.exists) {
@@ -926,6 +1429,8 @@
                                 // User already has a team - show team status
                                 document.getElementById('createTeamCard').style.display = 'none';
                                 document.getElementById('teamStatusCard').style.display = 'block';
+                                // Load team invitation code
+                                loadUserInvitationCode(assessmentData.teamId);
                             } else {
                                 // User completed assessment but no team yet - show create team option
                                 document.getElementById('teamStatusCard').style.display = 'none';
@@ -940,6 +1445,38 @@
                     .catch(function(error) {
                         console.error('Error checking assessment status:', error);
                     });
+            }
+        }
+        
+        function loadUserInvitationCode(teamId) {
+            if (teamId) {
+                db.collection('teams').doc(teamId).get()
+                    .then(function(doc) {
+                        if (doc.exists) {
+                            const teamData = doc.data();
+                            const inviteCode = teamData.inviteCode;
+                            const inviteUrl = `${window.location.origin}${window.location.pathname}?invite=${inviteCode}`;
+                            
+                            // Show the invitation card
+                            document.getElementById('invitationCodeCard').style.display = 'block';
+                            
+                            // Populate the invitation code and link
+                            document.getElementById('userInviteCode').value = inviteCode;
+                            document.getElementById('inviteLink').href = inviteUrl;
+                            document.getElementById('inviteLink').textContent = `fairstart.github.io/?invite=${inviteCode}`;
+                            
+                            console.log('Invitation code loaded:', inviteCode);
+                        } else {
+                            console.log('Team document not found');
+                            document.getElementById('invitationCodeCard').style.display = 'none';
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('Error loading invitation code:', error);
+                        document.getElementById('invitationCodeCard').style.display = 'none';
+                    });
+            } else {
+                document.getElementById('invitationCodeCard').style.display = 'none';
             }
         }
 
@@ -1238,7 +1775,7 @@
             // Layer 3: Operational & Role-Based (The "How")
             {
                 category: "Operational Layer",
-                categoryColor: "bg-info", 
+                categoryColor: "bg-operational", 
                 title: "What should your role and title be?",
                 description: "Clear role definition prevents overlap, confusion, and power struggles.",
                 type: "text",
@@ -1246,7 +1783,7 @@
             },
             {
                 category: "Operational Layer",
-                categoryColor: "bg-info",
+                categoryColor: "bg-operational",
                 title: "How should we split equity?", 
                 description: "Equity splits must feel fair to all parties. This is often the most contentious founder discussion.",
                 type: "multiple",
@@ -1255,7 +1792,7 @@
             },
             {
                 category: "Operational Layer", 
-                categoryColor: "bg-info",
+                categoryColor: "bg-operational",
                 title: "How should major decisions be made?",
                 description: "Clear decision-making prevents deadlock and ensures someone can break ties.",
                 type: "multiple",
@@ -1264,7 +1801,7 @@
             },
             {
                 category: "Operational Layer",
-                categoryColor: "bg-info", 
+                categoryColor: "bg-operational", 
                 title: "What happens if one founder wants to leave?",
                 description: "Departure terms must be clear upfront to avoid legal battles later.",
                 type: "multiple",
@@ -1273,7 +1810,7 @@
             },
             {
                 category: "Operational Layer",
-                categoryColor: "bg-info",
+                categoryColor: "bg-operational",
                 title: "How much of your own money are you willing to invest?",
                 description: "Financial contributions and runway affect timeline and decision-making pressure.",
                 type: "multiple", 
@@ -1545,8 +2082,21 @@
                 // Create layer section
                 const layerSection = document.createElement('div');
                 layerSection.className = 'mb-4';
+                
+                // Determine badge color based on layer
+                let badgeClass = '';
+                if (layer === 'Personal Layer') {
+                    badgeClass = 'bg-primary';
+                } else if (layer === 'Strategic Layer') {
+                    badgeClass = 'bg-success';
+                } else if (layer === 'Operational Layer') {
+                    badgeClass = 'bg-operational';
+                }
+                
                 layerSection.innerHTML = `
-                    <h6 class="mb-3 text-primary">${layer}</h6>
+                    <div class="mb-3">
+                        <span class="badge ${badgeClass}" style="font-size: 1rem; padding: 8px 16px;">${layer}</span>
+                    </div>
                 `;
                 
                 layerQuestions.forEach((question, index) => {
@@ -1954,6 +2504,52 @@
             } else {
                 prompt('Copy this invitation link:', url);
             }
+        }
+        
+        function copyInviteCode() {
+            const codeElement = document.getElementById('userInviteCode');
+            const code = codeElement.value;
+            
+            console.log('Attempting to copy code:', code);
+            
+            if (!code || code === 'Loading...') {
+                alert('Invitation code not ready yet. Please wait a moment.');
+                return;
+            }
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(function() {
+                    alert('Invitation code copied to clipboard! Share it with your co-founder.');
+                }).catch(function(error) {
+                    console.error('Clipboard copy failed:', error);
+                    fallbackCopy(code);
+                });
+            } else {
+                fallbackCopy(code);
+            }
+        }
+        
+        function fallbackCopy(text) {
+            // Fallback method using a temporary textarea
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            textArea.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('Invitation code copied to clipboard! Share it with your co-founder.');
+                } else {
+                    prompt('Copy this invitation code:', text);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                prompt('Copy this invitation code:', text);
+            }
+            
+            document.body.removeChild(textArea);
         }
 
         function compareResponses(responses1, responses2, userInfo = {}) {
