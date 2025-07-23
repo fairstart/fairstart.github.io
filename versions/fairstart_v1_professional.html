@@ -53,18 +53,6 @@
             color: #00144d !important;
             font-weight: 600;
             font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .navbar-brand img {
-            height: 32px;
-            width: 32px;
-        }
-        
-        .navbar-brand:hover {
-            text-decoration: none;
         }
 
         .nav-cta {
@@ -450,20 +438,14 @@
         }
 
         .profile-team-badge {
-            background: #00144d;
-            color: white;
-            padding: 2px 6px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 400;
-            margin-top: 6px;
+            background: var(--bg-light);
+            color: var(--text-light);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 8px;
             display: inline-block;
-        }
-        
-        .profile-team-badge:hover {
-            background: #001a66;
         }
 
         .profile-actions {
@@ -531,10 +513,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#" onclick="showFairStartHome()">
-                <img src="fairstart-logo.svg" alt="Fair Start Logo">
-                Fair Start
-            </a>
+            <a class="navbar-brand" href="#" onclick="showFairStartHome()">Fair Start</a>
             <div class="d-flex align-items-center">
                 <!-- Logged Out State -->
                 <div id="auth-buttons">
@@ -561,7 +540,7 @@
                                 <div class="profile-user-details">
                                     <h6 id="profileFullName">Loading...</h6>
                                     <div class="text-muted" id="profileEmail">Loading...</div>
-                                    <div class="profile-team-badge" id="profileTeamBadge" style="display: none;" onclick="viewTeamStatus()">
+                                    <div class="profile-team-badge" id="profileTeamBadge" style="display: none;">
                                         Team: <span id="profileTeamName">No team</span>
                                     </div>
                                 </div>
@@ -660,7 +639,7 @@
                 </div>
                 <div class="col-md-4">
                     <span class="stat-number">$197B</span>
-                    <div class="stat-label">In startup value is lost every year</div>
+                    <div class="stat-label">Evaporates every year because of this</div>
                 </div>
                 <div class="col-md-4">
                     <span class="stat-number">5</span>
@@ -690,7 +669,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-0 text-muted">&copy; 2025 Fair Start v1 (beta).
+                    <p class="mb-0 text-muted">&copy; 2025 Fair Start Co-Founder Canvas.
                         Building the future of founder collaboration.</p>
                 </div>
             </div>
@@ -813,37 +792,6 @@
                         </div>
                     </div>
                     
-                    <!-- Future Features Row -->
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Voice Assessment</h5>
-                                    <p class="card-text">Record answers with AI transcription</p>
-                                    <button class="btn btn-outline-primary" onclick="viewVoiceAssessment()">Try Voice Mode</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Cap Table Builder</h5>
-                                    <p class="card-text">Generate professional equity structures</p>
-                                    <button class="btn btn-outline-primary" onclick="viewCapTable()">Build Cap Table</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Founders Agreement</h5>
-                                    <p class="card-text">AI-generated legal documents</p>
-                                    <button class="btn btn-outline-primary" onclick="viewFoundersAgreement()">Generate Agreement</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
                     <!-- Invitation Code Card -->
                     <div class="row mt-4" id="invitationCodeCard" style="display: none;">
                         <div class="col-12">
@@ -852,13 +800,14 @@
                                     <h5 class="mb-0">Invite Your Co-Founder</h5>
                                 </div>
                                 <div class="card-body text-center">
-                                    <p class="card-text mb-3">Share this invitation link with your potential co-founder to start building your elite founding team.</p>
+                                    <p class="card-text mb-3">Share this invitation code with your potential co-founder to start building your elite founding team.</p>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control fw-bold" id="userInviteUrl" readonly style="background-color: #f8f9fa;" placeholder="Loading...">
-                                        <button class="btn btn-primary" type="button" onclick="copyInviteUrl()">
+                                        <input type="text" class="form-control text-center fw-bold fs-4" id="userInviteCode" readonly style="background-color: #f8f9fa; letter-spacing: 2px;" placeholder="Loading...">
+                                        <button class="btn btn-outline-primary" type="button" onclick="copyInviteCode()">
                                             <i class="fas fa-copy"></i> Copy
                                         </button>
                                     </div>
+                                    <small class="text-muted">Or share the direct link: <a href="#" id="inviteLink" target="_blank">Loading...</a></small>
                                 </div>
                             </div>
                         </div>
@@ -999,10 +948,10 @@
                                     <div class="card-body p-5">
                                         <div class="text-center mb-5">
                                             <h3>Assessment Complete!</h3>
-                                            <p class="lead text-muted" id="assessmentCompleteMessage">Your responses have been saved. Now invite your co-founder(s) to complete their assessment.</p>
+                                            <p class="lead text-muted">Your responses have been saved. Now invite your co-founder(s) to complete their assessment.</p>
                                         </div>
 
-                                        <div class="row" id="assessmentActions">
+                                        <div class="row">
                                             <div class="col-md-6 mb-4">
                                                 <div class="card bg-light">
                                                     <div class="card-body text-center">
@@ -1011,11 +960,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mb-4" id="secondaryActionCard">
+                                            <div class="col-md-6 mb-4">
                                                 <div class="card bg-primary text-white">
                                                     <div class="card-body text-center">
-                                                        <h5 id="secondaryActionTitle">Invite Co-Founder</h5>
-                                                        <button class="btn btn-light" id="secondaryActionButton" onclick="inviteCofounder()">Send Invitation</button>
+                                                        <h5>Invite Co-Founder</h5>
+                                                        <button class="btn btn-light" onclick="inviteCofounder()">Send Invitation</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1246,29 +1195,6 @@
             // Check for invitation in URL
             checkForInvitation();
             
-            // Handle redirect authentication result (for COOP fallback)
-            auth.getRedirectResult().then(function(result) {
-                if (result.user) {
-                    console.log('Redirect authentication successful');
-                    
-                    // Restore pending team data if it exists
-                    const pendingData = sessionStorage.getItem('pendingTeamData');
-                    if (pendingData) {
-                        window.pendingTeamData = JSON.parse(pendingData);
-                        sessionStorage.removeItem('pendingTeamData');
-                    }
-                    
-                    // Navigate appropriately
-                    if (window.pendingTeamData) {
-                        showWelcomeToTeamPage(window.pendingTeamData);
-                    } else {
-                        showDashboard();
-                    }
-                }
-            }).catch(function(error) {
-                console.error('Redirect authentication error:', error);
-            });
-            
             // Check authentication state
             auth.onAuthStateChanged(function(user) {
                 currentUser = user;
@@ -1299,16 +1225,6 @@
                                 pendingTeamId = doc.id;
                                 const teamData = doc.data();
                                 console.log('Found team:', teamData.teamName);
-                                
-                                // Check if team is already full (2 founders max)
-                                if (teamData.members && teamData.members.length >= 2) {
-                                    alert('This team is already complete with 2 founders. Fair Start currently supports teams of 2 co-founders.');
-                                    // Clean up URL and redirect to homepage
-                                    const url = new URL(window.location);
-                                    url.searchParams.delete('invite');
-                                    window.history.replaceState({}, document.title, url.pathname);
-                                    return;
-                                }
                                 
                                 // Show invitation page immediately
                                 showInvitationPage(teamData);
@@ -1538,22 +1454,16 @@
                     .then(function(doc) {
                         if (doc.exists) {
                             const teamData = doc.data();
-                            
-                            // Check if team is already full (2 founders max)
-                            if (teamData.members && teamData.members.length >= 2) {
-                                console.log('Team is full, hiding invitation card');
-                                document.getElementById('invitationCodeCard').style.display = 'none';
-                                return;
-                            }
-                            
                             const inviteCode = teamData.inviteCode;
-                            const inviteUrl = `https://fairstart.github.io/?invite=${inviteCode}`;
+                            const inviteUrl = `${window.location.origin}${window.location.pathname}?invite=${inviteCode}`;
                             
                             // Show the invitation card
                             document.getElementById('invitationCodeCard').style.display = 'block';
                             
-                            // Populate the invitation URL
-                            document.getElementById('userInviteUrl').value = inviteUrl;
+                            // Populate the invitation code and link
+                            document.getElementById('userInviteCode').value = inviteCode;
+                            document.getElementById('inviteLink').href = inviteUrl;
+                            document.getElementById('inviteLink').textContent = `fairstart.github.io/?invite=${inviteCode}`;
                             
                             console.log('Invitation code loaded:', inviteCode);
                         } else {
@@ -1571,16 +1481,13 @@
         }
 
         function showLandingPage() {
-            // Hide all views first to ensure clean state
-            hideAllViews();
-            
-            // Then show only the landing page sections
             document.querySelector('nav').style.display = 'block';
             document.querySelector('.hero-section').style.display = 'block';
             document.querySelector('.features-section').style.display = 'block';
             document.querySelector('.social-proof').style.display = 'block';
             document.querySelector('.cta-section').style.display = 'block';
             document.querySelector('footer').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
         }
 
         // Authentication Functions
@@ -1588,8 +1495,6 @@
             // Google Sign-In
             document.getElementById('googleSignIn').addEventListener('click', function() {
                 const provider = new firebase.auth.GoogleAuthProvider();
-                
-                // Try popup first, fallback to redirect for COOP issues
                 auth.signInWithPopup(provider)
                     .then(function(result) {
                         console.log('Google sign-in successful');
@@ -1603,23 +1508,8 @@
                         }
                     })
                     .catch(function(error) {
-                        console.log('Popup authentication failed, trying redirect:', error);
-                        
-                        // If popup fails due to COOP, use redirect
-                        if (error.code === 'auth/popup-blocked' || 
-                            error.code === 'auth/popup-closed-by-user' ||
-                            error.message.includes('Cross-Origin-Opener-Policy')) {
-                            
-                            // Store current state before redirect
-                            if (window.pendingTeamData) {
-                                sessionStorage.setItem('pendingTeamData', JSON.stringify(window.pendingTeamData));
-                            }
-                            
-                            auth.signInWithRedirect(provider);
-                        } else {
-                            console.error('Google sign-in error:', error);
-                            alert('Google sign-in failed. Please try again.');
-                        }
+                        console.error('Google sign-in error:', error);
+                        alert('Google sign-in failed. Please try again.');
                     });
             });
 
@@ -2079,57 +1969,20 @@
                 }
             }
             
-            // Show results with appropriate content
+            // Show results
             document.getElementById('assessmentQuestions').style.display = 'none';
             document.getElementById('assessmentResults').style.display = 'block';
-            
-            // Customize content based on whether user joined via invitation
-            if (pendingTeamId) {
-                // User joined via invitation - show team results option
-                document.getElementById('assessmentCompleteMessage').textContent = 'Your responses have been saved. Check your alignment with your co-founder.';
-                document.getElementById('secondaryActionTitle').textContent = 'Check Alignment';
-                document.getElementById('secondaryActionButton').textContent = 'Team Results';
-                document.getElementById('secondaryActionButton').onclick = viewTeamStatus;
-            } else {
-                // User created new team - show invite option (default content already set)
-                document.getElementById('assessmentCompleteMessage').textContent = 'Your responses have been saved. Now invite your co-founder(s) to complete their assessment.';
-                document.getElementById('secondaryActionTitle').textContent = 'Invite Co-Founder';
-                document.getElementById('secondaryActionButton').textContent = 'Send Invitation';
-                document.getElementById('secondaryActionButton').onclick = inviteCofounder;
-            }
         }
 
         function joinExistingTeam() {
-            // First check if team is already full before attempting to join
+            // Add user to existing team and save assessment
             const teamRef = db.collection('teams').doc(pendingTeamId);
             
-            teamRef.get().then(function(doc) {
-                if (doc.exists) {
-                    const teamData = doc.data();
-                    if (teamData.members && teamData.members.length >= 2) {
-                        alert('This team is already complete with 2 founders. Fair Start currently supports teams of 2 co-founders.');
-                        showLandingPage();
-                        return;
-                    }
-                    
-                    // Team has space, proceed with joining
-                    addUserToTeam(teamRef);
-                } else {
-                    alert('Team not found. Please check your invitation link.');
-                    showLandingPage();
-                }
-            }).catch(function(error) {
-                console.error('Error checking team status:', error);
-                alert('Error joining team. Please try again.');
-            });
-        }
-        
-        function addUserToTeam(teamRef) {
             Promise.all([
                 // Update team to add new member
                 teamRef.update({
                     members: firebase.firestore.FieldValue.arrayUnion(currentUser.email),
-                    status: 'complete' // Team now has 2 members (full)
+                    status: 'complete' // Team now has 2+ members
                 }),
                 // Save assessment linked to team
                 db.collection('assessments').doc(currentUser.uid).set({
@@ -2421,7 +2274,7 @@
         }
 
         function showInvitationSuccess(inviteCode) {
-            const inviteUrl = `https://fairstart.github.io/?invite=${inviteCode}`;
+            const inviteUrl = window.location.origin + window.location.pathname + '?invite=' + inviteCode;
             const message = `Team created! Share this link with your co-founder:\n\n${inviteUrl}\n\nThey'll complete the assessment and you'll see your alignment comparison!`;
             
             // Copy to clipboard if possible
@@ -2438,7 +2291,7 @@
 
         function inviteCofounder() {
             if (window.currentInviteCode) {
-                const inviteUrl = `https://fairstart.github.io/?invite=${window.currentInviteCode}`;
+                const inviteUrl = window.location.origin + window.location.pathname + '?invite=' + window.currentInviteCode;
                 const message = `Share this link with your co-founder:\n\n${inviteUrl}\n\nThey'll complete the assessment and you'll see your alignment comparison!`;
                 
                 // Copy to clipboard if possible
@@ -2456,22 +2309,12 @@
             }
         }
 
-        // Function moved to end of file for state-based team status
+        function viewTeamStatus() {
+            alert('Team status feature coming soon! This will show your founding team progress.');
+        }
 
         function viewInsights() {
             alert('AI Insights feature coming soon! This will provide personalized recommendations.');
-        }
-        
-        function viewVoiceAssessment() {
-            alert('Voice Assessment feature coming soon! Record your answers with AI transcription to cut assessment time from 15 minutes to 5 minutes. This will accelerate your path to an elite founding team.');
-        }
-        
-        function viewCapTable() {
-            alert('Cap Table Builder feature coming soon! Generate professional equity structures based on your alignment analysis and founding team roles.');
-        }
-        
-        function viewFoundersAgreement() {
-            alert('Founders Agreement feature coming soon! AI-generated legal documents customized to your team\'s specific alignment and conflict resolution preferences.');
         }
 
         // Alignment Visualization System
@@ -2608,7 +2451,7 @@
 
         function showWaitingForCofounderMessage(teamData) {
             const comparisonResults = document.getElementById('comparisonResults');
-            const inviteUrl = `https://fairstart.github.io/?invite=${teamData.inviteCode}`;
+            const inviteUrl = window.location.origin + window.location.pathname + '?invite=' + teamData.inviteCode;
             
             comparisonResults.innerHTML = `
                 <div class="card">
@@ -2663,26 +2506,26 @@
             }
         }
         
-        function copyInviteUrl() {
-            const urlElement = document.getElementById('userInviteUrl');
-            const url = urlElement.value;
+        function copyInviteCode() {
+            const codeElement = document.getElementById('userInviteCode');
+            const code = codeElement.value;
             
-            console.log('Attempting to copy URL:', url);
+            console.log('Attempting to copy code:', code);
             
-            if (!url || url === 'Loading...') {
-                alert('Invitation link not ready yet. Please wait a moment.');
+            if (!code || code === 'Loading...') {
+                alert('Invitation code not ready yet. Please wait a moment.');
                 return;
             }
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(function() {
-                    alert('Invitation link copied to clipboard! Share it with your co-founder.');
+                navigator.clipboard.writeText(code).then(function() {
+                    alert('Invitation code copied to clipboard! Share it with your co-founder.');
                 }).catch(function(error) {
                     console.error('Clipboard copy failed:', error);
-                    fallbackCopy(url);
+                    fallbackCopy(code);
                 });
             } else {
-                fallbackCopy(url);
+                fallbackCopy(code);
             }
         }
         
@@ -2915,201 +2758,9 @@
             actionItems.innerHTML = html;
         }
 
-        // State-based team status function
+        // Update the existing viewTeamStatus function to show alignment viz
         function viewTeamStatus() {
-            if (!currentUser) {
-                alert('You must be logged in to view team status.');
-                return;
-            }
-            
-            // Close profile dropdown if open
-            const dropdown = document.getElementById('profileDropdown');
-            if (dropdown) {
-                dropdown.classList.remove('show');
-                document.removeEventListener('click', closeProfileDropdownOnOutsideClick);
-            }
-            
-            // Get user's team information
-            db.collection('assessments').doc(currentUser.uid).get()
-                .then(function(doc) {
-                    if (doc.exists) {
-                        const assessmentData = doc.data();
-                        if (assessmentData.teamId) {
-                            checkTeamStatusAndShow(assessmentData.teamId);
-                        } else {
-                            alert('You are not part of a team yet. Complete your assessment first.');
-                        }
-                    } else {
-                        alert('Please complete your assessment first to view team status.');
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Error checking team status:', error);
-                    alert('Error loading team information.');
-                });
-        }
-        
-        function checkTeamStatusAndShow(teamId) {
-            // Get team data and all assessments for this team
-            Promise.all([
-                db.collection('teams').doc(teamId).get(),
-                db.collection('assessments').where('teamId', '==', teamId).get()
-            ]).then(function([teamDoc, assessmentsSnapshot]) {
-                if (teamDoc.exists) {
-                    const teamData = teamDoc.data();
-                    const assessments = [];
-                    
-                    assessmentsSnapshot.forEach(function(doc) {
-                        assessments.push(doc.data());
-                    });
-                    
-                    // Determine team state and show appropriate view
-                    showStateBasedTeamStatus(teamData, assessments);
-                } else {
-                    alert('Team not found.');
-                }
-            }).catch(function(error) {
-                console.error('Error loading team data:', error);
-                alert('Error loading team information.');
-            });
-        }
-        
-        function showStateBasedTeamStatus(teamData, assessments) {
-            const teamMembers = teamData.members || [];
-            const completedAssessments = assessments.length;
-            
-            if (teamMembers.length === 1) {
-                // State 1: Solo founder, no co-founder joined yet - show normal view
-                showAlignmentViz();
-            } else if (teamMembers.length >= 2 && completedAssessments === 1) {
-                // State 2: Co-founder joined but hasn't completed assessment
-                const otherMemberEmail = teamMembers.find(email => email !== currentUser.email);
-                showWaitingForAssessment(teamData, assessments[0], otherMemberEmail);
-            } else if (teamMembers.length >= 2 && completedAssessments === 2) {
-                // State 3: Both assessments complete - show full comparison
-                showAlignmentViz();
-            } else {
-                // Fallback: show waiting state if we have team members but no assessments
-                if (teamMembers.length >= 2) {
-                    const otherMemberEmail = teamMembers.find(email => email !== currentUser.email);
-                    // Show waiting message for case where co-founder joined but hasn't started assessment
-                    showWaitingForCofounderToJoin(teamData, otherMemberEmail);
-                } else {
-                    showAlignmentViz();
-                }
-            }
-        }
-        
-        function showWaitingForCofounderToJoin(teamData, otherMemberEmail) {
-            hideAllViews();
-            document.getElementById('alignmentViz').style.display = 'block';
-            
-            const comparisonResults = document.getElementById('comparisonResults');
-            if (!comparisonResults) return;
-            
-            const otherMemberName = otherMemberEmail.split('@')[0];
-            
-            comparisonResults.innerHTML = `
-                <div class="text-center">
-                    <h3>Waiting for co-founder to join...</h3>
-                    <p class="lead text-muted mb-4">Your co-founder ${otherMemberName} has joined the team but hasn't completed their assessment yet.</p>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Next Steps</h5>
-                            <p class="card-text">Share your invitation link with ${otherMemberName} so they can complete their assessment and unlock your alignment analysis.</p>
-                            <button class="btn btn-primary" onclick="copyInviteUrl()">Copy Invitation Link</button>
-                            <button class="btn btn-outline-secondary ms-2" onclick="showDashboard()">Back to Dashboard</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function showWaitingForAssessment(teamData, userAssessment, otherMemberEmail) {
-            hideAllViews();
-            document.getElementById('alignmentViz').style.display = 'block';
-            
-            // Update the page title and content for waiting state
-            const pageTitle = document.querySelector('#alignmentViz h2');
-            if (pageTitle) {
-                pageTitle.textContent = `Waiting for ${otherMemberEmail.split('@')[0]}'s assessment response`;
-            }
-            
-            // Show user's responses in waiting format
-            showWaitingStateComparison(userAssessment, otherMemberEmail);
-        }
-        
-        function showWaitingStateComparison(userAssessment, otherMemberEmail) {
-            const comparisonResults = document.getElementById('comparisonResults');
-            if (!comparisonResults) return;
-            
-            // Get the user's responses
-            const responses = userAssessment.responses;
-            const otherMemberName = otherMemberEmail.split('@')[0];
-            
-            let html = `
-                <div class="waiting-state-header text-center mb-4">
-                    <h4>Team Assessment Progress</h4>
-                    <p class="text-muted">Your co-founder ${otherMemberName} needs to complete their assessment to unlock your alignment analysis.</p>
-                </div>
-                
-                <div class="comparison-table">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Question</th>
-                                    <th>Your Response</th>
-                                    <th>${otherMemberName}'s Response</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-            `;
-            
-            // Show user's answers with empty column for co-founder
-            const questions = [
-                { key: 'motivation', text: 'Primary motivation for starting company' },
-                { key: 'conflict_style', text: 'Conflict handling approach' },
-                { key: 'work_hours', text: 'Weekly time commitment' },
-                { key: 'personal_success', text: 'Definition of personal success' },
-                { key: 'stress_coping', text: 'Stress management approach' },
-                { key: 'company_vision', text: '5-year company vision' },
-                { key: 'funding_approach', text: 'Funding strategy preference' },
-                { key: 'exit_strategy', text: 'Exit strategy preference' },
-                { key: 'exit_valuation', text: 'Target exit valuation' },
-                { key: 'company_culture', text: 'Desired company culture' },
-                { key: 'role_title', text: 'Preferred role and responsibilities' },
-                { key: 'equity_split', text: 'Equity distribution approach' },
-                { key: 'decision_making', text: 'Decision-making structure' },
-                { key: 'departure_terms', text: 'Founder departure terms' },
-                { key: 'financial_investment', text: 'Personal financial commitment' }
-            ];
-            
-            questions.forEach(function(question) {
-                const userResponse = responses[question.key] || 'No response';
-                html += `
-                    <tr>
-                        <td><strong>${question.text}</strong></td>
-                        <td>${userResponse}</td>
-                        <td class="text-muted"><em>Waiting for response...</em></td>
-                    </tr>
-                `;
-            });
-            
-            html += `
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-4">
-                    <p class="text-muted">Share your invitation link to get your co-founder started:</p>
-                    <button class="btn btn-primary" onclick="copyInviteUrl()">Copy Invitation Link</button>
-                    <button class="btn btn-outline-secondary ms-2" onclick="showDashboard()">Back to Dashboard</button>
-                </div>
-            `;
-            
-            comparisonResults.innerHTML = html;
+            showAlignmentViz();
         }
 
         // Update action items to work with real user data
