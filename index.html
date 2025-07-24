@@ -2960,33 +2960,93 @@ Generate a brief, neutral summary (2-3 sentences) highlighting their core perspe
         }
 
         function generateComparisonRow(comparison) {
-            const { question, answer1, answer2, alignmentLevel } = comparison;
+            const { question, answer1, answer2, alignmentLevel, aiAnalysis } = comparison;
             
             const getBadgeClass = (level) => {
                 switch(level) {
                     case 'aligned': return 'bg-success';
+                    case 'Similar Perspective': return 'bg-success';
                     case 'different': return 'bg-warning';
+                    case 'Different Perspective': return 'bg-warning';
                     case 'conflict': return 'bg-danger';
+                    case 'Conflict': return 'bg-danger';
                     default: return 'bg-secondary';
                 }
             };
 
+            const getBadgeText = (level) => {
+                switch(level) {
+                    case 'Similar Perspective': return 'Similar Perspective';
+                    case 'Different Perspective': return 'Different Perspective';
+                    case 'Conflict': return 'Conflict';
+                    case 'aligned': return 'Aligned';
+                    case 'different': return 'Different Perspective';
+                    case 'conflict': return 'Conflict';
+                    default: return level;
+                }
+            };
+
+            // Get user names
+            const user1Name = comparison.user1 === currentUser.email ? 'You' : comparison.user1.split('@')[0];
+            const user2Name = comparison.user2 === currentUser.email ? 'You' : comparison.user2.split('@')[0];
+
+            // AI Insights column content
+            let aiInsightsContent = '';
+            if (aiAnalysis) {
+                aiInsightsContent = `
+                    <div class="text-center mb-2">
+                        <span class="badge ${getBadgeClass(aiAnalysis.classification)} fs-6">${getBadgeText(aiAnalysis.classification)}</span>
+                    </div>
+                    <div class="ai-analysis-content">
+                        <p class="mb-2 small"><strong>AI Analysis:</strong></p>
+                        <p class="mb-2 text-muted small">${aiAnalysis.summary}</p>
+                        ${aiAnalysis.similarity ? `<div class="text-center"><small class="text-muted">Similarity: ${Math.round(aiAnalysis.similarity * 100)}%</small></div>` : ''}
+                    </div>
+                `;
+            } else {
+                aiInsightsContent = `
+                    <div class="text-center mb-2">
+                        <span class="badge ${getBadgeClass(alignmentLevel)} fs-6">${getBadgeText(alignmentLevel)}</span>
+                    </div>
+                    <div class="ai-analysis-content">
+                        <p class="mb-2 small text-muted text-center">AI Insights</p>
+                        <p class="mb-0 text-muted small text-center"><em>AI analysis will appear here</em></p>
+                    </div>
+                `;
+            }
+
             return `
-                <div class="row mb-3 p-3 border rounded">
-                    <div class="col-12 mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0">${question.title}</h6>
-                            <span class="badge ${getBadgeClass(alignmentLevel)}">${alignmentLevel}</span>
-                        </div>
+                <div class="mb-4 border rounded">
+                    <!-- Question Header -->
+                    <div class="bg-light p-3 border-bottom">
+                        <h6 class="mb-1">${question.title}</h6>
                         <small class="text-muted">${question.description}</small>
                     </div>
-                    <div class="col-md-6">
-                        <strong>${comparison.user1 === currentUser.email ? 'You' : comparison.user1.split('@')[0]}:</strong>
-                        <p class="mb-0 text-break">${answer1}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <strong>${comparison.user2 === currentUser.email ? 'You' : comparison.user2.split('@')[0]}:</strong>
-                        <p class="mb-0 text-break">${answer2}</p>
+                    
+                    <!-- 3-Column Layout -->
+                    <div class="row g-0">
+                        <!-- Cofounder 1 Column -->
+                        <div class="col-md-4 p-3 border-end">
+                            <div class="h-100">
+                                <strong class="text-primary">${user1Name}</strong>
+                                <p class="mb-0 mt-2 text-break">${answer1}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Insights Column -->
+                        <div class="col-md-4 p-3 border-end bg-light bg-opacity-25">
+                            <div class="h-100 d-flex flex-column justify-content-center">
+                                ${aiInsightsContent}
+                            </div>
+                        </div>
+                        
+                        <!-- Cofounder 2 Column -->
+                        <div class="col-md-4 p-3">
+                            <div class="h-100">
+                                <strong class="text-primary">${user2Name}</strong>
+                                <p class="mb-0 mt-2 text-break">${answer2}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
