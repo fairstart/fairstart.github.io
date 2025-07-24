@@ -2535,9 +2535,30 @@
                         return;
                     }
 
-                    // We have multiple assessments - generate real comparison
-                    const comparisonData = generateRealComparison(teamAssessments);
-                    displayAlignmentResults(comparisonData);
+                    // We have multiple assessments - generate real comparison with AI
+                    // Show loading message
+                    const comparisonResults = document.getElementById('comparisonResults');
+                    comparisonResults.innerHTML = `
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <h5 class="mt-3">🤖 AI is analyzing your responses...</h5>
+                            <p class="text-muted">This may take a few moments</p>
+                        </div>
+                    `;
+                    
+                    generateRealComparison(teamAssessments).then(comparisonData => {
+                        displayAlignmentResults(comparisonData);
+                    }).catch(error => {
+                        console.error('Error generating AI comparison:', error);
+                        comparisonResults.innerHTML = `
+                            <div class="text-center py-5">
+                                <h5 class="text-danger">❌ AI analysis failed</h5>
+                                <p class="text-muted">Please refresh and try again</p>
+                            </div>
+                        `;
+                    });
                 })
                 .catch(function(error) {
                     console.error('Error loading team comparison:', error);
@@ -2545,12 +2566,12 @@
                 });
         }
 
-        function generateRealComparison(teamAssessments) {
+        async function generateRealComparison(teamAssessments) {
             // Use the first two assessments for comparison
             const assessment1 = teamAssessments[0].data;
             const assessment2 = teamAssessments[1].data;
             
-            return compareResponses(assessment1.responses, assessment2.responses, {
+            return await compareResponses(assessment1.responses, assessment2.responses, {
                 user1Email: assessment1.userEmail,
                 user2Email: assessment2.userEmail
             });
@@ -2709,16 +2730,18 @@
             document.body.removeChild(textArea);
         }
 
-        function compareResponses(responses1, responses2, userInfo = {}) {
+        async function compareResponses(responses1, responses2, userInfo = {}) {
             const comparison = [];
             let alignedCount = 0, partialCount = 0, conflictCount = 0;
 
-            assessmentQuestions.forEach((question, index) => {
+            // Process questions sequentially to avoid overwhelming the API
+            for (const question of assessmentQuestions) {
                 const answer1 = responses1[question.key];
                 const answer2 = responses2[question.key];
                 
                 let alignmentLevel = 'different';
                 let priority = 'medium';
+                let aiAnalysis = null;
 
                 if (question.type === 'multiple') {
                     if (answer1 === answer2) {
@@ -2736,17 +2759,34 @@
                         }
                     }
                 } else {
-                    // For text responses, do basic similarity check
-                    const similarity = calculateTextSimilarity(answer1, answer2);
-                    if (similarity > 0.7) {
-                        alignmentLevel = 'aligned';
-                        alignedCount++;
-                    } else if (similarity > 0.3) {
-                        alignmentLevel = 'different'; 
-                        partialCount++;
-                    } else {
-                        alignmentLevel = 'conflict';
-                        conflictCount++;
+                    // For text responses, use AI analysis
+                    try {
+                        aiAnalysis = await analyzeWithAI(answer1, answer2, question.title);
+                        alignmentLevel = aiAnalysis.classification;
+                        
+                        // Update counts based on AI classification
+                        if (alignmentLevel === 'Similar Perspective') {
+                            alignedCount++;
+                        } else if (alignmentLevel === 'Different Perspective') {
+                            partialCount++;
+                        } else if (alignmentLevel === 'Conflict') {
+                            conflictCount++;
+                            priority = 'high';
+                        }
+                    } catch (error) {
+                        console.error('AI analysis failed for question:', question.title, error);
+                        // Fallback to basic similarity
+                        const similarity = calculateTextSimilarity(answer1, answer2);
+                        if (similarity > 0.7) {
+                            alignmentLevel = 'aligned';
+                            alignedCount++;
+                        } else if (similarity > 0.3) {
+                            alignmentLevel = 'different'; 
+                            partialCount++;
+                        } else {
+                            alignmentLevel = 'conflict';
+                            conflictCount++;
+                        }
                     }
                 }
 
@@ -2756,10 +2796,11 @@
                     answer2: answer2,
                     alignmentLevel: alignmentLevel,
                     priority: priority,
+                    aiAnalysis: aiAnalysis,
                     user1: userInfo.user1Email || 'You',
                     user2: userInfo.user2Email || 'Co-founder'
                 });
-            });
+            }
 
             return {
                 comparisons: comparison,
