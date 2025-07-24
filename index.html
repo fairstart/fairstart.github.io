@@ -2890,16 +2890,33 @@
 
         async function generateAISummary(answer1, answer2, classification, questionText) {
             try {
-                const prompt = `You are a neutral, impartial mediator for startup co-founders. Analyze two perspectives on a business topic and provide a concise, professional summary.
+                const prompt = `You are an expert co-founder alignment analyst with deep expertise in startup partnerships and business psychology. Your role is to provide neutral, insightful analysis that helps founders understand their compatibility.
 
-Topic: "${questionText}"
+ANALYSIS FRAMEWORK:
+- Focus on underlying motivations and values, not just surface-level differences
+- Identify both areas of tension AND potential complementarity  
+- Use professional, non-judgmental language that respects both perspectives
+- Provide specific, actionable insights rather than generic statements
 
-Founder A's Perspective: "${answer1}"
-Founder B's Perspective: "${answer2}"
+TOPIC: "${questionText}"
 
-Classification: "${classification}"
+FOUNDER A: "${answer1}"
+FOUNDER B: "${answer2}"
 
-Generate a brief, neutral summary (2-3 sentences) highlighting their core perspectives and alignment. Be objective and professional. Do not give advice or opinions.`;
+CLASSIFICATION: ${classification}
+
+INSTRUCTIONS:
+1. Analyze the core philosophical differences or alignments
+2. Explain WHY this matters for a co-founder partnership
+3. Keep response to exactly 2-3 sentences
+4. Focus on business implications, not personal judgments
+5. If "Different Perspective": highlight how differences might be complementary OR problematic
+6. If "Similar Perspective": note the strength of alignment and any nuances
+7. If "Conflict": explain the specific risk to the partnership
+
+TONE: Professional, insightful, balanced. Avoid words like "should," "must," "wrong," or "better."
+
+OUTPUT FORMAT: Single paragraph, 2-3 sentences, focusing on partnership implications.`;
 
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                     method: 'POST',
@@ -2913,8 +2930,10 @@ Generate a brief, neutral summary (2-3 sentences) highlighting their core perspe
                             }]
                         }],
                         generationConfig: {
-                            temperature: 0.3,
-                            maxOutputTokens: 200
+                            temperature: 0.2,
+                            maxOutputTokens: 150,
+                            topP: 0.9,
+                            topK: 40
                         }
                     })
                 });
@@ -2946,14 +2965,32 @@ Generate a brief, neutral summary (2-3 sentences) highlighting their core perspe
             // Calculate semantic similarity
             const similarity = cosineSimilarity(embedding1, embedding2);
             
-            // Classify based on similarity score
+            // Enhanced classification with context-aware thresholds
             let classification;
-            if (similarity > 0.85) {
-                classification = 'Similar Perspective';
-            } else if (similarity > 0.6) {
-                classification = 'Different Perspective';
+            const questionContext = questionText.toLowerCase();
+            
+            // Adjust thresholds based on question importance
+            const criticalKeywords = ['funding', 'equity', 'decision', 'exit', 'role', 'hours'];
+            const isCriticalQuestion = criticalKeywords.some(keyword => questionContext.includes(keyword));
+            
+            if (isCriticalQuestion) {
+                // Stricter thresholds for critical alignment areas
+                if (similarity > 0.90) {
+                    classification = 'Similar Perspective';
+                } else if (similarity > 0.65) {
+                    classification = 'Different Perspective';
+                } else {
+                    classification = 'Conflict';
+                }
             } else {
-                classification = 'Conflict';
+                // Standard thresholds for general questions
+                if (similarity > 0.82) {
+                    classification = 'Similar Perspective';
+                } else if (similarity > 0.55) {
+                    classification = 'Different Perspective';
+                } else {
+                    classification = 'Conflict';
+                }
             }
             
             // Generate AI summary
